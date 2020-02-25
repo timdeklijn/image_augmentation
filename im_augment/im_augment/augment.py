@@ -6,6 +6,7 @@ A set of image augmentation functions
 import matplotlib.pyplot as plt
 from PIL import Image as pil_image
 from PIL import ImageEnhance
+import random
 
 
 def change_sharpness(img, factor=1.8):
@@ -141,6 +142,22 @@ def scale_image(img, factor=0.8):
     )
 
 
+def flip_image(img):
+    """Mirror and image
+
+    Parameters
+    ----------
+    img : PIL.Image
+        Input image
+
+    Returns
+    -------
+    PIL.Imge
+        Output image
+    """
+    return img.transpose(pil_image.FLIP_LEFT_RIGHT)
+
+
 def crop_image(img, factor=0.8):
     """Crop an image, take the center factor of each dimension.
     The PIL.crop function takes the following arguments::
@@ -182,3 +199,52 @@ def show_image(img):
     ax.imshow(img.convert("RGB"))
     plt.tight_layout()
     plt.show()
+
+
+AUGMENTATION_LIST = [
+    change_sharpness,
+    change_saturation,
+    change_contrast,
+    change_brightness,
+    rotate_image,
+    flip_image,
+    crop_image,
+]
+"""List(function())
+
+A list of augmentation functions that can be called by random_augment
+"""
+
+
+def random_augment(img):
+    """Randomly choose an augmentation function from the AUGMENTATION_LIST, randomly
+    set the factor/angle for that function. Repeat for whole AUTMENTATION_LIST, then
+    return the augmented image.
+
+    Parameters
+    ----------
+    img : PIL.Image
+        Input image
+
+    Returns
+    -------
+    PIL.Image
+        Output image
+    """
+    for f in AUGMENTATION_LIST:
+        if random.random() >= 0.66:
+            fname = f.__name__
+            if fname in [
+                "change_sharpness",
+                "change_saturation",
+                "change_contrast",
+                "change_brightness",
+            ]:
+                img = f(img, factor=random.uniform(0.4, 1.6))
+            if fname == "rotate_image":
+                img = f(img, angle=random.randint(0, 360))
+            if fname == "crop_image":
+                img = f(img, factor=random.uniform(0.5, 1.0))
+            if fname == "flip_image":
+                img = f(img)
+    return img
