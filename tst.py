@@ -12,4 +12,4 @@ if __name__ == "__main__":
             axes[i, j].imshow(aug.random_augment(img))
             axes[i, j].axis("off")
     plt.tight_layout()
-    plt.show()
+    plt.savefig("augment_output.png")
