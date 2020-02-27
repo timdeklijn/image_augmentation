@@ -251,4 +251,13 @@ def random_augment(img):
 
 
 def save_image(im, fname):
+    """Save an image to disk
+    
+    Parameters
+    ----------
+    im : PIL.Image
+        Input inamge
+    fname : str
+        Path to save the image
+    """
     im.save(fname)
