@@ -248,3 +248,7 @@ def random_augment(img):
             if fname == "flip_image":
                 img = f(img)
     return img
+
+
+def save_image(im, fname):
+    im.save(fname)
