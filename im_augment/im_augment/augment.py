@@ -242,7 +242,7 @@ def random_augment(img):
             ]:
                 img = f(img, factor=random.uniform(0.4, 1.6))
             if fname == "rotate_image":
-                img = f(img, angle=random.randint(0, 360))
+                img = f(img, angle=random.randint(-20, 20))
             if fname == "crop_image":
                 img = f(img, factor=random.uniform(0.5, 1.0))
             if fname == "flip_image":
